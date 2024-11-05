@@ -65,7 +65,7 @@ yarn-error.log
 # testing
 /coverage
 
-Gemifile.lock
+Gemfile.lock
 package-lock.json 
 yarn.lock 
 .vscode
