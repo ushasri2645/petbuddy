@@ -21,5 +21,9 @@ jobs:
       run: |
         cd ios
         pod install
+    - name: Build Android
+      run : npm run build-android
+    - name: Build IOS
+      run : npm run build-ios
     - name: Run tests
       run: npm test
