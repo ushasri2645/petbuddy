@@ -13,6 +13,11 @@ jobs:
       uses: actions/checkout@v3
     - name: Install dependencies
       run: npm install
+    - name: Set up Ruby and Bundler
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ruby-full
+        gem install bundler
     - name: Install pod dependency
       run: |
         cd ios
