@@ -1,0 +1,21 @@
+name: PetBuddy
+on: 
+  push:
+    branches:
+      - master
+      - petbuddy/version-1
+
+jobs: 
+  PetBuddy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Install dependencies
+      run: npm install
+    - name: Run tests
+      run: npm test
+    - name: Install pod dependency
+      run: |
+        cd ios
+        pod install
