@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     gap: 40,
-    // alignItems: 'center',
   },
   petText: {
     color: 'forestgreen',
@@ -126,7 +125,7 @@ const styles = StyleSheet.create({
   buddyText: {
     fontWeight: 'bold',
     fontSize: 25,
-    color: Platform.OS === 'android' ? 'black' : 'black',
+    color: 'black'
   },
   petBuddyTitle: {
     flexDirection: 'row',
@@ -173,8 +172,6 @@ const styles = StyleSheet.create({
   bottomSection: {
     flex: 1,
     justifyContent: 'flex-end',
-    // alignSelf:'center',
-    //  paddingVertical:20,
   },
   rightsText: {
     color: 'white',
