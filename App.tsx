@@ -4,12 +4,14 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { AppNavigator } from './Navigation';
 
 function App(): React.JSX.Element {
   return (
-    <SafeAreaView>
-      <Text>Usha</Text>
-    </SafeAreaView>
+    <NavigationContainer>
+       <AppNavigator />
+    </NavigationContainer>
   );
 }
 
