@@ -8,12 +8,17 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "build-android": "react-native build-android",    
+    "build-android": "react-native build-android",
     "build-ios": "react-native build-ios"
   },
   "dependencies": {
+    "@react-navigation/bottom-tabs": "^7.0.0",
+    "@react-navigation/native-stack": "^7.0.0",
+    "@react-navigation/stack": "^7.0.0",
     "react": "18.2.0",
-    "react-native": "0.73.10"
+    "react-native": "0.73.10",
+    "react-native-safe-area-context": "^4.14.0",
+    "react-native-screens": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -23,6 +28,8 @@
     "@react-native/eslint-config": "0.73.2",
     "@react-native/metro-config": "^0.73.5",
     "@react-native/typescript-config": "0.73.1",
+    "@testing-library/react-native": "^12.8.1",
+    "@types/jest": "^29.5.14",
     "@types/react": "^18.2.6",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.6.3",
