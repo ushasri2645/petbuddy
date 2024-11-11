@@ -17,7 +17,7 @@ const Services = () => {
   >('veternity');
   const [services, setServices] = useState([]);
   const [collapse, setCollapse] = useState(false)
-  
+ 
 
   return (
     <View style={styles.container}>
@@ -71,7 +71,24 @@ const Services = () => {
           </TouchableOpacity>
         </View>
       </View>
-      
+      <View style={styles.bottomSection}>
+        <View style={styles.nearbyHeadingSection}>
+          <Text style={styles.nearByHeading}>
+            Nearby {current === 'veternity' && 'Veterinarian'}
+            {current === 'grooming' && 'Groomers'}
+            {current === 'boarding' && 'Boardings'}
+            {current === 'training' && 'Trainers'}
+          </Text>
+          <Text  onPress={()=>setCollapse(!collapse)} style={styles.seeAllText}>{!collapse? "See all " : "Collapse"}</Text>
+        </View>
+        <View style={styles.displaySection}>
+          <ScrollView>
+            {services.map((service,index) => (
+              <Tile key={index} service={service} />
+            ))}
+          </ScrollView>
+        </View>
+      </View>
     </View>
   );
 };
