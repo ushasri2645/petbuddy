@@ -1,22 +1,66 @@
-import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import {UserContext} from '../../Context/Context';
+import {API_URL} from '../../../API';
+import Pet from '../../components/PetTile';
 
 const Home = ({navigation}: {navigation: any}) => {
+  const [pets, setPets] = useState([]);
+  const userContext = useContext(UserContext);
+  if (!userContext) {
+    return (
+      <View>
+        <Text>Something went wrong</Text>
+      </View>
+    );
+  }
+  const {user} = userContext;
+  if (!user) {
+    return <Text>Something went wrong.</Text>;
+  }
+
+  useEffect(() => {
+    const fetchPets = async () => {
+      try {
+        const response = await fetch(`${API_URL}pets/${user.name}`);
+        if (response.status === 200) {
+          const data = await response.json();
+          setPets(data);
+        }
+      } catch (e) {
+        throw new Error(`${e}`);
+      }
+    };
+    fetchPets();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.headerSection}>
         <Text style={styles.pawEmoji}>🐾</Text>
         <Text style={styles.headerText}>My Pets</Text>
       </View>
-      <View style={styles.middleSection}></View>
+      <View style={styles.middleSection}>
+        <ScrollView style={styles.petsDisplaySection}>
+          {pets.map((pet, index) => (
+            <Pet pet={pet} key={index} />
+          ))}
+        </ScrollView>
+      </View>
       <View style={styles.bottomSection}>
-        <View style={styles.addPet}>
+        <TouchableOpacity style={styles.addPet}>
           <Image
             style={styles.image}
             source={require('../../../public/assets/Login/paw.png')}
           />
           <Text style={styles.addPetText}>Add Pet</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -26,7 +70,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 10,
-    // alignItems: 'center',
   },
   headerText: {
     fontSize: 20,
@@ -34,6 +77,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   headerSection: {
+    flex: 0.1,
     flexDirection: 'row',
     gap: 10,
     backgroundColor: 'white',
@@ -52,7 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   bottomSection: {
-    flex: 1,
+    flex: 0.1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
@@ -72,14 +116,25 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     gap: 10,
     alignItems: 'center',
-    
   },
-  addPetText:{
-    color:'white'
+  addPetText: {
+    color: 'white',
   },
-  middleSection:{
-
-  }
+  middleSection: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'lightgreen',
+    padding: 10,
+    borderRadius: 20,
+    margin: '10%',
+  },
+  petsDisplaySection: {
+    flexDirection: 'column',
+    alignContent: 'center',
+    gap: 10,
+  },
 });
 
 export default Home;
