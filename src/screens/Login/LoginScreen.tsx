@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   View,
   Text,
@@ -11,13 +11,22 @@ import {
   Alert,
 } from 'react-native';
 import {API_URL} from '../../../API';
+import { UserContext } from '../../Context/Context';
 
 const Login = ({navigation}: {navigation: any}) => {
+  const userContext = useContext(UserContext)
+  if(!userContext){
+    return <View>
+      <Text>Something went wrong</Text>
+    </View>
+  }
+  const {user,setUser} = userContext;
+
   const [name, setUserName] = useState('');
   const [password, setpassword] = useState('');
   const handleLogin = async () => {
     try {
-      const response = await fetch(`${API_URL}/user`, {
+      const response = await fetch(`${API_URL}user`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -26,6 +35,8 @@ const Login = ({navigation}: {navigation: any}) => {
       });
 
       if(response.status===200){
+        const user = await response.json()
+        setUser(user)
         navigation.replace("Home")
       }
       else if(response.status===404){
