@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@testing-library/react-native';
+import {fireEvent, render, waitFor} from '@testing-library/react-native';
 import Main from '../src/screens/Main/MainScreen';
 import {NavigationContainer} from '@react-navigation/native';
 
@@ -46,4 +46,19 @@ describe('Main Component', () => {
     expect(getStartedButton).toBeTruthy();
     expect(getStartedArrow).toBeTruthy();
   });
+
+  it('should navigate to the login screen',async()=>{
+    const mockNavigation = {navigate: jest.fn()};
+    const {getByText} = render(
+      <NavigationContainer>
+        <Main navigation={mockNavigation} />
+      </NavigationContainer>,
+    );
+    const getStarted = getByText("Get Started");
+    fireEvent.press(getStarted);
+
+    await waitFor(()=>{
+      expect(mockNavigation.navigate).toHaveBeenCalledWith('Login')
+    })
+  })
 });
