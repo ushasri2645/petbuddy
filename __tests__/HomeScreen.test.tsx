@@ -11,5 +11,7 @@ describe('Test for the home screen', () => {
     );
 
     expect(getByText("My Pets")).toBeTruthy()
+    expect(getByText("Add Pet")).toBeTruthy()
+    
   });
 });
