@@ -1,12 +1,11 @@
-import React, { useContext } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import React from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Main from "./src/screens/Main/MainScreen";
 import Login from "./src/screens/Login/LoginScreen";
 import Register from "./src/screens/Register/RegisterScreen";
-import Home from "./src/screens/Home/HomeScree";
+import Home from "./src/screens/Home/HomeScreen";
 import Services from "./src/tabs/Services/ServiceTab";
 import Training from "./src/tabs/Training/TrainingTab";
 import Activity from "./src/screens/Activity/ActivityScreen";
