@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     padding:80
   },
   welcomeHeading:{
-    color:Platform.OS === "android" ? 'black' : 'black',
+    color:"black",
     fontWeight:'bold',
     fontSize:25
   },
