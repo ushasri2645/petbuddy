@@ -1,22 +1,16 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-} from 'react-native';
-import { NavigationContainer } from "@react-navigation/native";
-import { AppNavigator } from './Navigation';
+import {NavigationContainer} from '@react-navigation/native';
+import {AppNavigator} from './Navigation';
+import {UserContextProvider} from './src/Context/Context';
 
 function App(): React.JSX.Element {
   return (
     <NavigationContainer>
-       <AppNavigator />
+      <UserContextProvider>
+        <AppNavigator />
+      </UserContextProvider>
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  
-});
 
 export default App;
