@@ -17,7 +17,30 @@ const Services = () => {
   >('veternity');
   const [services, setServices] = useState([]);
   const [collapse, setCollapse] = useState(false)
- 
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await fetch(`${API_URL}/services`);
+        let data: any = [];
+        if (response.status === 200) {
+          data = await response.json();
+          const res= data[0][current]
+          if(!collapse){
+            setServices(res.slice(0,2));
+          }
+          else{
+            setServices(res)
+          }
+          
+        } else {
+          Alert.alert('Data not fetched');
+        }
+      } catch (e) {
+        Alert.alert('ERROR FETCHING SERVICES');
+      }
+    };
+    fetchServices();
+  }, [current,collapse]);
 
   return (
     <View style={styles.container}>
