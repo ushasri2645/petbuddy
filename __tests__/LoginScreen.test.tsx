@@ -3,12 +3,29 @@ import {fireEvent, render, screen} from '@testing-library/react-native';
 import Login from '../src/screens/Login/LoginScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {Platform} from 'react-native';
+import {UserContext, UserContextProvider} from '../src/Context/Context';
 
 describe('Test for Main Component', () => {
+  const mockSetUser = jest.fn();
+  const user = {
+    name: 'Usha',
+    password: '1234',
+    email: 'usha@gmail.com',
+    contact: '23456789',
+    about: 'me',
+    address: 'wgl',
+    pets: [],
+  };
   it('renders the top image', () => {
     const {getByTestId} = render(
       <NavigationContainer>
-        <Login navigation={{replace: jest.fn()}} />
+       <UserContext.Provider
+          value={{
+            user: user,
+            setUser: mockSetUser,
+          }}>
+          <Login navigation={{replace: jest.fn()}} />
+        </UserContext.Provider>
       </NavigationContainer>,
     );
     const imageBackground = getByTestId('top-image');
@@ -17,7 +34,13 @@ describe('Test for Main Component', () => {
   it('it should render the petbuddy image', () => {
     const {getByTestId} = render(
       <NavigationContainer>
-        <Login navigation={{replace: jest.fn()}} />
+       <UserContext.Provider
+          value={{
+            user: user,
+            setUser: mockSetUser,
+          }}>
+          <Login navigation={{replace: jest.fn()}} />
+        </UserContext.Provider>
       </NavigationContainer>,
     );
     const imageBackground = getByTestId('petbuddy-image');
@@ -26,7 +49,13 @@ describe('Test for Main Component', () => {
   it('it should render all the texts correctly', () => {
     const {getByText} = render(
       <NavigationContainer>
-        <Login navigation={{replace: jest.fn()}} />
+       <UserContext.Provider
+          value={{
+            user: user,
+            setUser: mockSetUser,
+          }}>
+          <Login navigation={{replace: jest.fn()}} />
+        </UserContext.Provider>
       </NavigationContainer>,
     );
     expect(getByText('Pet')).toBeTruthy();
@@ -38,7 +67,13 @@ describe('Test for Main Component', () => {
   it('Should test for input elements', () => {
     const {getByPlaceholderText} = render(
       <NavigationContainer>
-        <Login navigation={{replace: jest.fn()}} />
+       <UserContext.Provider
+          value={{
+            user: user,
+            setUser: mockSetUser,
+          }}>
+          <Login navigation={{replace: jest.fn()}} />
+        </UserContext.Provider>
       </NavigationContainer>,
     );
     expect(getByPlaceholderText('User name')).toBeTruthy();
@@ -48,7 +83,13 @@ describe('Test for Main Component', () => {
     Platform.OS = 'ios';
     render(
       <NavigationContainer>
-        <Login navigation={{replace: jest.fn()}} />
+       <UserContext.Provider
+          value={{
+            user: user,
+            setUser: mockSetUser,
+          }}>
+          <Login navigation={{replace: jest.fn()}} />
+        </UserContext.Provider>
       </NavigationContainer>,
     );
     expect(screen.getByTestId('top-image').props.style).toMatchObject({
@@ -57,12 +98,17 @@ describe('Test for Main Component', () => {
       width: 400,
     });
   });
-
   it('navigates to Login screen when "Already have an account? Login" is pressed', () => {
     const mockNavigation = {replace: jest.fn()};
     const {getByText} = render(
       <NavigationContainer>
-        <Login navigation={mockNavigation} />
+       <UserContext.Provider
+          value={{
+            user: user,
+            setUser: mockSetUser,
+          }}>
+          <Login navigation={mockNavigation} />
+        </UserContext.Provider>
       </NavigationContainer>,
     );
 
@@ -74,23 +120,34 @@ describe('Test for Main Component', () => {
   it('updates username field on input change', () => {
     const setUserName = jest.fn();
     const mockNavigation = {replace: jest.fn()};
-    const { getByTestId } = render(
+    const {getByTestId} = render(
       <NavigationContainer>
-        <Login navigation={mockNavigation} />
+       <UserContext.Provider
+          value={{
+            user: user,
+            setUser: mockSetUser,
+          }}>
+          <Login navigation={mockNavigation} />
+        </UserContext.Provider>
       </NavigationContainer>,
     );
     const usernameInput = getByTestId('username-input');
     fireEvent.changeText(usernameInput, 'testUser');
     expect(usernameInput.props.value).toBe('testUser');
   });
-
   it('updates password field on input change', () => {
     const mockNavigation = {replace: jest.fn()};
     const setPassword = jest.fn();
-    const { getByTestId } = render(
+    const {getByTestId} = render(
       <NavigationContainer>
-      <Login navigation={mockNavigation} />
-    </NavigationContainer>,
+       <UserContext.Provider
+          value={{
+            user: user,
+            setUser: mockSetUser,
+          }}>
+          <Login navigation={mockNavigation} />
+        </UserContext.Provider>
+      </NavigationContainer>,
     );
 
     const passwordInput = getByTestId('password-input');
