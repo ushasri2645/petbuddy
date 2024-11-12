@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, Platform, TouchableOpacity } from 'react
 
 const Pet = ({pet,navigation}:{pet:any,navigation:any}) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={()=>navigation.navigate('Pet',{pet})}>
+    <TouchableOpacity testID="pet-details" style={styles.container} onPress={()=>navigation.navigate('Pet',{pet})}>
         <View style={styles.leftView}>
             <Image testID="pet-image" style={styles.petImage} source={require('../../public/assets/Home/dog.png')}/>
       </View>
