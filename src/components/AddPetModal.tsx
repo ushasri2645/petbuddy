@@ -22,7 +22,39 @@ const AddPetModal = ({visible, closeFn,username}: {visible: boolean; closeFn: an
   const [gender, setGender] = useState('');
   const [remarks, setRemarks] = useState('');
 
- 
+  const addPet = async() => {
+    try{
+        const petDetails = {
+            name,breed,gender,age,weight,height,color,remarks
+        }
+        const response = await fetch(`${API_URL}pets/${username}`,{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json',
+              },
+            body: JSON.stringify(petDetails),
+        })
+        if (response.status === 404) {
+            Alert.alert("User Not Found")
+        }
+        if(response.status===201){
+            Alert.alert("Pet added succesfully");
+            closeFn();
+        }
+    }
+    catch(e){
+        Alert.alert(`${e}`)
+    }
+    setName('');
+    setAge('');
+    setGender('');
+    setColor('');
+    setHeight('');
+    setWeight('');
+    setBreed('');
+    setRemarks('');
+  }
+  
   return (
     <Modal
       animationType="slide"
@@ -117,8 +149,8 @@ const AddPetModal = ({visible, closeFn,username}: {visible: boolean; closeFn: an
               />
             </View>
           </View>
-          <TouchableOpacity onPress={()=>addPet()} style={styles.submit}>
-            <Text style={styles.addPet}> Add pet</Text>
+          <TouchableOpacity testID='add-pet' onPress={()=>addPet()} style={styles.submit}>
+            <Text style={styles.addPet}>Add pet</Text>
           </TouchableOpacity>
         </View>
       </TouchableWithoutFeedback>
