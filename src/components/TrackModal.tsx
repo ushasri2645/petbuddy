@@ -28,11 +28,11 @@ const Track = ({
       <TouchableWithoutFeedback onPress={closeFn}>
         <View style={styles.container}>
           <View style={styles.subContainer}>
-            <TouchableOpacity style={styles.type}>
+            <TouchableOpacity style={styles.type} onPress={()=>{closeFn();navigation.navigate('Activity')}}>
               <Text style={styles.text}>Activity</Text>
               <Text>{'>'}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.type}>
+            <TouchableOpacity style={styles.type} onPress={()=>{closeFn();navigation.navigate('Reminders')}}>
               <Text style={styles.text}>Reminders</Text>
               <Text>{'>'}</Text>
             </TouchableOpacity>
