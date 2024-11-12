@@ -10,10 +10,13 @@ import {
 import {UserContext} from '../../Context/Context';
 import {API_URL} from '../../../API';
 import Pet from '../../components/PetTile';
+import AddPetModal from '../../components/AddPetModal';
 
 const Home = ({navigation}: {navigation: any}) => {
   const [pets, setPets] = useState([]);
   const userContext = useContext(UserContext);
+  const [isVisible, setIsVisible] = useState(false);
+
   if (!userContext) {
     return (
       <View>
@@ -25,7 +28,7 @@ const Home = ({navigation}: {navigation: any}) => {
   if (!user) {
     return <Text>Something went wrong.</Text>;
   }
-
+  const onHandleClose=()=>{setIsVisible(false)}
   useEffect(() => {
     const fetchPets = async () => {
       try {
@@ -39,7 +42,8 @@ const Home = ({navigation}: {navigation: any}) => {
       }
     };
     fetchPets();
-  }, []);
+  }, [user,onHandleClose]);
+
   return (
     <View style={styles.container}>
       <View style={styles.headerSection}>
@@ -59,9 +63,14 @@ const Home = ({navigation}: {navigation: any}) => {
             style={styles.image}
             source={require('../../../public/assets/Login/paw.png')}
           />
-          <Text style={styles.addPetText}>Add Pet</Text>
+          <Text
+            style={styles.addPetText}
+            onPress={() => setIsVisible(!isVisible)}>
+            Add Pet
+          </Text>
         </TouchableOpacity>
       </View>
+      <AddPetModal visible={isVisible} closeFn={onHandleClose} username={user.name} />
     </View>
   );
 };
