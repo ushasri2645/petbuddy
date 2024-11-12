@@ -10,7 +10,7 @@ import Services from "./src/tabs/Services/ServiceTab";
 import Training from "./src/tabs/Training/TrainingTab";
 import Activity from "./src/screens/Activity/ActivityScreen";
 import Reminders from "./src/screens/Reminders/ReminderScreen";
-
+import PetScreen from "./src/screens/PetScreen/PetScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,6 +19,7 @@ export function StackNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Pet" component={PetScreen} />
       <Stack.Screen name="Activity" component={Activity}/>
       <Stack.Screen name="Reminders" component={Reminders}/>
     </Stack.Navigator>
