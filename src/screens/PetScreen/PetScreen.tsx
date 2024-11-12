@@ -1,4 +1,4 @@
-import React, {useLayoutEffect} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -8,9 +8,11 @@ import {
   ImageBackground,
   Platform,
 } from 'react-native';
+import TrackModal from '../../components/TrackModal';
 
 const PetScreen = ({navigation, route}: {navigation: any; route: any}) => {
   const {pet} = route.params;
+  const [isVisible, setIsVisible] = useState(false);
   const CustomBackButton = () => (
     <TouchableOpacity
         testID="back-button"
@@ -32,6 +34,7 @@ const PetScreen = ({navigation, route}: {navigation: any; route: any}) => {
       headerLeft: () => <CustomBackButton />,
     });
   }, [navigation]);
+  const onHandleClose=()=>{setIsVisible(false)}
 
   return (
     <View style={styles.container}>
@@ -82,10 +85,12 @@ const PetScreen = ({navigation, route}: {navigation: any; route: any}) => {
         <TouchableOpacity style={styles.gallery}>
           <Text style={styles.galleryText}>{'Gallery    >'}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.track}>
+        <TouchableOpacity style={styles.track} onPress={() => setIsVisible(!isVisible)}>
           <Text style={styles.trackText}>Track</Text>
         </TouchableOpacity>
       </View>
+
+      <TrackModal visible={isVisible} pet={pet} navigation={navigation} closeFn={onHandleClose}></TrackModal>
     </View>
   );
 };
