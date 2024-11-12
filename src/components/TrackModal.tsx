@@ -12,7 +12,7 @@ const Track = ({
   navigation,
   visible,
   closeFn,
-  pet: any,
+  pet,
 }: {
   navigation: any;
   visible: boolean;
@@ -24,15 +24,16 @@ const Track = ({
       animationType="slide"
       visible={visible}
       transparent={true}
-      onRequestClose={closeFn}>
+      onRequestClose={closeFn}
+     >
       <TouchableWithoutFeedback onPress={closeFn}>
         <View style={styles.container}>
           <View style={styles.subContainer}>
-            <TouchableOpacity style={styles.type} onPress={()=>{closeFn();navigation.navigate('Activity')}}>
+            <TouchableOpacity style={styles.type} onPress={()=>{closeFn();navigation.navigate('Activity',{pet})}}>
               <Text style={styles.text}>Activity</Text>
               <Text>{'>'}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.type} onPress={()=>{closeFn();navigation.navigate('Reminders')}}>
+            <TouchableOpacity style={styles.type} onPress={()=>{closeFn();navigation.navigate('Reminders',{pet})}}>
               <Text style={styles.text}>Reminders</Text>
               <Text>{'>'}</Text>
             </TouchableOpacity>
