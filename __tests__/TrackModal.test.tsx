@@ -23,6 +23,26 @@ describe('Track Component', () => {
     expect(getByText('Reminders')).toBeTruthy();
   });
 
+  it('should call closeFn and navigates to "Activity" screen when Activity button is pressed', () => {
+    const { getByText } = render(
+      <Track navigation={mockNavigation} visible={true} closeFn={mockCloseFn} pet={pet} />
+    );
+
+    fireEvent.press(getByText('Activity'));
+    expect(mockCloseFn).toHaveBeenCalled();
+    expect(mockNavigation.navigate).toHaveBeenCalledWith('Activity');
+  });
+
+  it('should call closeFn and navigates to "Reminders" screen when Reminders button is pressed', () => {
+    const { getByText } = render(
+      <Track navigation={mockNavigation} visible={true} closeFn={mockCloseFn} pet={pet} />
+    );
+
+    fireEvent.press(getByText('Reminders'));
+    expect(mockCloseFn).toHaveBeenCalled();
+    expect(mockNavigation.navigate).toHaveBeenCalledWith('Reminders');
+  });
+
   it('does not render modal content when visible is false', () => {
     const { queryByText } = render(
       <Track navigation={mockNavigation} visible={false} closeFn={mockCloseFn} pet={pet} />
