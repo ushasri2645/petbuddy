@@ -11,15 +11,15 @@ describe('Test for PEt File', () => {
     gender: 'female',
   };
   it('Should render pet image', () => {
-    const {getByTestId} = render(<Pet pet={mockPet} />);
+    const {getByTestId} = render(<Pet navigation={jest.fn()} pet={mockPet} />);
     expect(getByTestId('pet-image')).toBeTruthy();
   });
   it("should render pet name",()=>{
-    const {getByText} = render(<Pet pet={mockPet}/>)
+    const {getByText} = render(<Pet navigation={jest.fn()} pet={mockPet}/>)
     expect(getByText("Puppy")).toBeTruthy()
   })
   it("should render pet breed",()=>{
-    const {getByText} = render(<Pet pet={mockPet}/>)
+    const {getByText} = render(<Pet navigation={jest.fn()}pet={mockPet}/>)
     expect(getByText("Puppy2")).toBeTruthy()
   })
 });
