@@ -1,8 +1,11 @@
 import Pet from '../src/components/PetTile';
 import Home from '../src/screens/Home/HomeScreen';
-import {render, screen} from '@testing-library/react-native';
+import {fireEvent, render, screen} from '@testing-library/react-native';
 
 describe('Test for PEt File', () => {
+  const mockNavigation = {
+    navigate: jest.fn(),
+  };
   const mockPet = {
     _id: '1',
     name: 'Puppy',
@@ -22,4 +25,12 @@ describe('Test for PEt File', () => {
     const {getByText} = render(<Pet navigation={jest.fn()}pet={mockPet}/>)
     expect(getByText("Puppy2")).toBeTruthy()
   })
+  it("should navigaet appropriately",()=>{
+    const {getByTestId} = render(<Pet navigation={mockNavigation} pet={mockPet}/>)
+    fireEvent.press(getByTestId("pet-details"))
+    expect(mockNavigation.navigate).toHaveBeenCalledWith('Pet', {"pet": {"_id": "1", "age": 2, "breed": "Puppy2", "gender": "female", "name": "Puppy"}});
+  })
+
+
+
 });
