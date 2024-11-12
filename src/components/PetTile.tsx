@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Platform } from 'react-native';
+import { View, Text, StyleSheet, Image, Platform, TouchableOpacity } from 'react-native';
 
-const Pet = ({pet}:{pet:any}) => {
+const Pet = ({pet,navigation}:{pet:any,navigation:any}) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={()=>navigation.navigate('Pet',{pet})}>
         <View style={styles.leftView}>
             <Image testID="pet-image" style={styles.petImage} source={require('../../public/assets/Home/dog.png')}/>
       </View>
@@ -15,7 +15,7 @@ const Pet = ({pet}:{pet:any}) => {
                 {pet.breed}
             </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
