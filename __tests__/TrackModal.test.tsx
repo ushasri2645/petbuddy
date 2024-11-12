@@ -30,7 +30,7 @@ describe('Track Component', () => {
 
     fireEvent.press(getByText('Activity'));
     expect(mockCloseFn).toHaveBeenCalled();
-    expect(mockNavigation.navigate).toHaveBeenCalledWith('Activity');
+    expect(mockNavigation.navigate).toHaveBeenCalledWith('Activity', {"pet": {"name": "Buddy"}});
   });
 
   it('should call closeFn and navigates to "Reminders" screen when Reminders button is pressed', () => {
@@ -40,7 +40,7 @@ describe('Track Component', () => {
 
     fireEvent.press(getByText('Reminders'));
     expect(mockCloseFn).toHaveBeenCalled();
-    expect(mockNavigation.navigate).toHaveBeenCalledWith('Reminders');
+    expect(mockNavigation.navigate).toHaveBeenCalledWith('Reminders', {"pet": {"name": "Buddy"}});
   });
 
   it('does not render modal content when visible is false', () => {
