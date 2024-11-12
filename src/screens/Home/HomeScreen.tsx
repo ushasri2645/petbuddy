@@ -53,7 +53,7 @@ const Home = ({navigation}: {navigation: any}) => {
       <View style={styles.middleSection}>
         <ScrollView style={styles.petsDisplaySection}>
           {pets.map((pet, index) => (
-            <Pet pet={pet} key={index} />
+            <Pet pet={pet} key={index} navigation={navigation}  />
           ))}
         </ScrollView>
       </View>
