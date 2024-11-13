@@ -5,12 +5,13 @@ interface IUser{
     address:string,
     about:string,
     email:string,
-    contact:string
+    contact:string,
+    image_uri:string,
     pets:any[],
 }
 interface UserContextType {
     user: IUser | null;
-    setUser: (user: IUser) => void;
+    setUser: (user: IUser|null) => void;
 }
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
