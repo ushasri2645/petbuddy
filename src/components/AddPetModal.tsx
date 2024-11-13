@@ -11,6 +11,9 @@ import {
   Alert,
 } from 'react-native';
 import { API_URL } from '../../API';
+import { requestPhotoLibraryPermission } from './Permissions';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import RNFS from 'react-native-fs';
 
 const AddPetModal = ({visible, closeFn,username}: {visible: boolean; closeFn: any,username:string}) => {
   const [name, setName] = useState('');
@@ -21,11 +24,40 @@ const AddPetModal = ({visible, closeFn,username}: {visible: boolean; closeFn: an
   const [color, setColor] = useState('');
   const [gender, setGender] = useState('');
   const [remarks, setRemarks] = useState('');
+  const [photo,setPhoto] = useState('');
+  const [emergencyContact,setEmergencyContact] = useState('')
+ 
+
+  const handleImage = async () => {
+    try {
+      if (await requestPhotoLibraryPermission()) {
+        ImageCropPicker.openPicker({
+          width: 300,
+          height: 400,
+          cropping: true,
+        })
+          .then(async image => {
+            const source = image.path;
+            const base64Image = await RNFS.readFile(source, 'base64');
+            setPhoto(`data:image/jpeg;base64,${base64Image}`);
+          })
+          .catch(error => {
+            if (error.code === 'E_PICKER_CANCELLED') {
+              console.log('User cancelled image picker');
+            } else {
+              console.log('Error: ', error.message);
+            }
+          });
+      } else {
+        Alert.alert('Permission Not Granted');
+      }
+    } catch (Error: any) {}
+  };
 
   const addPet = async() => {
     try{
         const petDetails = {
-            name,breed,gender,age,weight,height,color,remarks
+            name,breed,gender,age,weight,height,color,remarks,image_uri:photo,emergencyContact
         }
         const response = await fetch(`${API_URL}pets/${username}`,{
             method:'POST',
@@ -53,6 +85,7 @@ const AddPetModal = ({visible, closeFn,username}: {visible: boolean; closeFn: an
     setWeight('');
     setBreed('');
     setRemarks('');
+    setEmergencyContact('');
   }
   
   return (
@@ -64,13 +97,14 @@ const AddPetModal = ({visible, closeFn,username}: {visible: boolean; closeFn: an
       <TouchableWithoutFeedback onPress={closeFn}>
         <View style={styles.container}>
           <Text style={styles.header}>Enter Pet Details</Text>
-          <View style={styles.imageContainer}>
+          <TouchableOpacity style={styles.imageContainer} onPress={()=>handleImage()}>
+            {!photo?
             <Image
               style={styles.profileImage}
               source={require('./../../public/assets/Register/profile.png')}
-            />
+            />:<Image style={styles.profileImage} source={{uri:photo}} />}
             <Text>Upload Profile Pic</Text>
-          </View>
+          </TouchableOpacity>
           <View style={styles.bottomContainer}>
             <View style={styles.inputSection}>
               <TextInput
@@ -146,6 +180,15 @@ const AddPetModal = ({visible, closeFn,username}: {visible: boolean; closeFn: an
                 multiline={true}
                 value={remarks}
                 onChangeText={text => setRemarks(text)}
+              />
+            </View>
+            <View style={styles.inputSection}>
+              <TextInput
+                style={styles.inputElement}
+                testID="contact-input"
+                placeholder="Contact"
+                value={emergencyContact}
+                onChangeText={text => setEmergencyContact(text)}
               />
             </View>
           </View>
