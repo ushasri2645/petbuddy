@@ -5,7 +5,7 @@ const Pet = ({pet,navigation}:{pet:any,navigation:any}) => {
   return (
     <TouchableOpacity testID="pet-details" style={styles.container} onPress={()=>navigation.navigate('Pet',{pet})}>
         <View style={styles.leftView}>
-            <Image testID="pet-image" style={styles.petImage} source={require('../../public/assets/Home/dog.png')}/>
+            {pet.image_uri?<Image testID="pet-image" style={styles.petImage} source={{uri:pet.image_uri}} />:<Image testID="pet-image" style={styles.petImage} source={require('../../public/assets/Home/dog.png')}/>}
       </View>
       <View style={styles.rightView}>
             <Text style={styles.petName}>
