@@ -1,7 +1,12 @@
-import React from 'react';
-import {View, Text, StyleSheet, ScrollView, TouchableOpacity, Image} from 'react-native';
+import React, { useState } from 'react';
+import {View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, ViewBase} from 'react-native';
+import AddreminderModal from '../../components/AddreminderModal';
 
-const Reminders = () => {
+const Reminders = ({route}:{route:any}) => {
+  const {pet} = route.params
+  const [isVisible, setIsVisible] = useState(false);
+  const onHandleClose=()=>{setIsVisible(false)}
+
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
@@ -10,8 +15,9 @@ const Reminders = () => {
       </View>
       <ScrollView></ScrollView>
       <TouchableOpacity style={styles.bottomSection}>
-        <Text testID="+-icon" style={styles.add}>+</Text>
+        <Text onPress={()=>setIsVisible(!isVisible)} testID="+-icon" style={styles.add}>+</Text>
       </TouchableOpacity>
+      <AddreminderModal visible={isVisible} closeFn={onHandleClose} pet={pet}/>
     </View>
   );
 };
@@ -19,8 +25,6 @@ const Reminders = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'flex-start',
-    // alignItems: 'flex-start',
     margin:'5%',
     backgroundColor:'white',
     padding:10,
@@ -54,8 +58,6 @@ const styles = StyleSheet.create({
     resizeMode:'stretch',
     borderRadius:10
   }
-
-
 });
 
 export default Reminders;
