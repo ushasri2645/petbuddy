@@ -11,16 +11,19 @@ import {
   Alert,
 } from 'react-native';
 import {API_URL} from '../../../API';
-import { UserContext } from '../../Context/Context';
+import {UserContext} from '../../Context/Context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({navigation}: {navigation: any}) => {
-  const userContext = useContext(UserContext)
-  if(!userContext){
-    return <View>
-      <Text>Something went wrong</Text>
-    </View>
+  const userContext = useContext(UserContext);
+  if (!userContext) {
+    return (
+      <View>
+        <Text>Something went wrong</Text>
+      </View>
+    );
   }
-  const {user,setUser} = userContext;
+  const {user, setUser} = userContext;
 
   const [name, setUserName] = useState('');
   const [password, setpassword] = useState('');
@@ -34,22 +37,25 @@ const Login = ({navigation}: {navigation: any}) => {
         body: JSON.stringify({name, password}),
       });
 
-      if(response.status===200){
-        const user = await response.json()
-        setUser(user)
-        navigation.replace("Home")
-      }
-      else if(response.status===404){
-        Alert.alert("User Details not found")
-      }
-      else if(response.status===401){
-        Alert.alert("Invalid Credentials")
+      if (response.status === 200) {
+        const user = await response.json();
+        await AsyncStorage.setItem('loggedInUser', JSON.stringify(user));
+        setUser(user);
+        navigation.replace('Loading'); // Show Loading screen immediately
+
+        setTimeout(() => {
+          navigation.replace('Home'); // Replace Loading with Home after a delay
+        }, 1000);
+      } else if (response.status === 404) {
+        Alert.alert('User Details not found');
+      } else if (response.status === 401) {
+        Alert.alert('Invalid Credentials');
       }
     } catch (e) {
-      Alert.alert(`Something went wrong: ${e}`)
+      Alert.alert(`Something went wrong: ${e}`);
     }
-    setUserName("");
-    setpassword("");
+    setUserName('');
+    setpassword('');
   };
   return (
     <View style={styles.container}>
@@ -87,7 +93,7 @@ const Login = ({navigation}: {navigation: any}) => {
           />
         </View>
         <View style={styles.loginSection}>
-          <TouchableOpacity onPress ={handleLogin}style={styles.loginButton}>
+          <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
             <Text style={styles.loginText}>LOGIN</Text>
           </TouchableOpacity>
           <Text
@@ -136,7 +142,7 @@ const styles = StyleSheet.create({
   buddyText: {
     fontWeight: 'bold',
     fontSize: 25,
-    color: 'black'
+    color: 'black',
   },
   petBuddyTitle: {
     flexDirection: 'row',
