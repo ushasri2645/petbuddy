@@ -41,11 +41,12 @@ const Register = ({navigation}: {navigation: any}) => {
           pets:[],
         }),
       });
-
-      const data = await response.json();
       if (response.status===201) {
-        Alert.alert("Registration Success");
         navigation.replace('Login');
+        Alert.alert("Registration Success");
+        setTimeout(()=>{
+          navigation.replace('Login')
+        },1000)
       } else {
         Alert.alert('Registration failed');
       }
