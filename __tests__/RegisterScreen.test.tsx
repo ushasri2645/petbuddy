@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, fireEvent} from '@testing-library/react-native';
+import {render, fireEvent, waitFor} from '@testing-library/react-native';
 import Register from '../src/screens/Register/RegisterScreen';
 import {NavigationContainer} from '@react-navigation/native';
 
@@ -33,4 +33,25 @@ describe('Register Component', () => {
 
     expect(mockNavigation.replace).toHaveBeenCalledWith('Login');
   });
+
+  it('should update input fields with specified values', () => {
+    const mockNavigation = jest.fn()
+    const { getByPlaceholderText } = render(<Register navigation={mockNavigation} />);
+    fireEvent.changeText(getByPlaceholderText('User name'), 'Usha');
+    fireEvent.changeText(getByPlaceholderText('Password'), '1234');
+    fireEvent.changeText(getByPlaceholderText('Confirm Password'), '1234');
+    fireEvent.changeText(getByPlaceholderText('Email'), 'usha@gmail.com');
+    fireEvent.changeText(getByPlaceholderText('Contact'), '12345678');
+    fireEvent.changeText(getByPlaceholderText('About you'), 'I love pets');
+    fireEvent.changeText(getByPlaceholderText('Adress'), 'wgl');
+
+    expect(getByPlaceholderText('User name').props.value).toBe('Usha');
+    expect(getByPlaceholderText('Password').props.value).toBe('1234');
+    expect(getByPlaceholderText('Confirm Password').props.value).toBe('1234');
+    expect(getByPlaceholderText('Email').props.value).toBe('usha@gmail.com');
+    expect(getByPlaceholderText('Contact').props.value).toBe('12345678');
+    expect(getByPlaceholderText('About you').props.value).toBe('I love pets');
+    expect(getByPlaceholderText('Adress').props.value).toBe('wgl');
+  });  
 });
+
