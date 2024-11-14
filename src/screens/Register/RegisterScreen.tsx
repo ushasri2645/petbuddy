@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,9 +7,53 @@ import {
   Platform,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
+import {API_URL} from '../../../API';
 
-const Register = ({navigation}:{navigation:any}) => {
+const Register = ({navigation}: {navigation: any}) => {
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [contact, setContact] = useState('');
+  const [about, setAbout] = useState('');
+  const [address, setAddress] = useState('');
+
+  const register = async () => {
+    try {
+      if (password != confirmPassword) {
+        Alert.alert('Pasword and confirm password mismatch');
+      }
+      const response = await fetch(`${API_URL}users`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          password,
+          address,
+          about,
+          email,
+          contact,
+          image_uri:'',
+          pets:[],
+        }),
+      });
+
+      const data = await response.json();
+      if (response.status===201) {
+        Alert.alert("Registration Success");
+        navigation.replace('Login');
+      } else {
+        Alert.alert('Registration failed');
+      }
+    } catch (error) {
+      console.error('Error registering user:', error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Image
@@ -30,43 +74,59 @@ const Register = ({navigation}:{navigation:any}) => {
             style={styles.inputElement}
             testID="username-input"
             placeholder="User name"
+            value={name}
+            onChangeText={setName}
           />
           <TextInput
             style={styles.inputElement}
             testID="password-input"
             placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
           />
           <TextInput
             style={styles.inputElement}
             testID="confirm-password-input"
             placeholder="Confirm Password"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
           />
-           <TextInput
+          <TextInput
             style={styles.inputElement}
             testID="email"
             placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
           />
           <TextInput
             style={styles.inputElement}
             testID="contact"
             placeholder="Contact"
+            value={contact}
+            onChangeText={setContact}
           />
           <TextInput
             style={styles.inputElement}
             testID="about-me"
             placeholder="About you"
+            value={about}
+            onChangeText={setAbout}
           />
           <TextInput
             style={styles.inputElement}
             testID="address"
             placeholder="Adress"
+            value={address}
+            onChangeText={setAddress}
           />
         </View>
         <View style={styles.loginSection}>
-          <TouchableOpacity style={styles.loginButton}>
+          <TouchableOpacity style={styles.loginButton} onPress={()=>register()}>
             <Text style={styles.loginText}>REGISTER</Text>
           </TouchableOpacity>
-          <Text style={styles.noAccountText} onPress={() => navigation.replace("Login")}>
+          <Text
+            style={styles.noAccountText}
+            onPress={() => navigation.replace('Login')}>
             Already have an account? Login
           </Text>
         </View>
@@ -94,7 +154,7 @@ const styles = StyleSheet.create({
   topImage: {
     resizeMode: 'stretch',
     height: 100,
-    width:  400,
+    width: 400,
   },
   pawImg: {
     borderRadius: 50,
@@ -115,7 +175,7 @@ const styles = StyleSheet.create({
   buddyText: {
     fontWeight: 'bold',
     fontSize: 25,
-    color: 'black'
+    color: 'black',
   },
   petBuddyTitle: {
     flexDirection: 'row',
